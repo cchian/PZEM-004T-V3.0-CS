@@ -1,11 +1,11 @@
-<pre>
-# PZEM-004T-V3.0
-PZEM-004T V3.0 C# Library
-New PZEM-004T version (protocol changed)
+
+# PZEM-004T-V3.0<br>
+PZEM-004T V3.0 C# Library<br>
+New PZEM-004T version (protocol changed)<br>
 the original library from: https://github.com/mandulaj/PZEM-004T-v30
 
 example:
-
+<pre>
 using System;
 using System.Windows.Forms;
 using Pzem;
