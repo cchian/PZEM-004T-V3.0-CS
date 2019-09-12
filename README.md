@@ -1,7 +1,7 @@
 
 # PZEM-004T-V3.0<br>
 PZEM-004T V3.0 C# Library<br>
-New PZEM-004T version (protocol changed)<br>
+New PZEM-004T version (protocol changed) The application layer use the Modbus-RTU protocol to comunicate.<br>
 the original library from: https://github.com/mandulaj/PZEM-004T-v30 (library for Arduino)
 
 example:
@@ -29,3 +29,6 @@ namespace Pzem004t {
         }
     }
 }</pre>
+
+<br>
+----------------------------------
