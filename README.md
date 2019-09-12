@@ -10,10 +10,7 @@ the original library from: https://github.com/mandulaj/PZEM-004T-v30 ( C/C++ lib
 using System;
 using System.Windows.Forms;
 using System.IO.Ports;
-using Pzem; // You can mix up parameters
-color.Set(color.FgMagenta, color.Bold)
-defer color.Unset()using Pzem namespace
-
+using Pzem;
 namespace Pzem004t {
     public partial class Demo : Form {
         public Demo() {
