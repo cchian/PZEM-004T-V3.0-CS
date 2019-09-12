@@ -68,7 +68,7 @@ namespace Pzem {
         private Timer _timer;
         public PZEM004TV30(SerialPort port, byte addr = PZEM_DEFAULT_ADDR) {
 
-            this._currentValues = new PzemValues();
+            this.Values = new PzemValues();
             this._serial = port;
             this._serial.BaudRate = PZEM_BAUD_RATE;
             this._serial.ReadTimeout = 500;
@@ -84,7 +84,7 @@ namespace Pzem {
 
         private void _timer_Tick(object sender, EventArgs e) {
             updateValues();
-            Update(new PzemEvent(_currentValues));
+            Update(new PzemEvent(Values));
         }
 
         public void updateInterval(int interval) {
@@ -93,22 +93,22 @@ namespace Pzem {
 
         #region getValues
         public float voltage() {
-            return _currentValues.voltage;
+            return Values.voltage;
         }
         public float current() {
-            return _currentValues.current;
+            return Values.current;
         }
         public float power() {
-            return _currentValues.power;
+            return Values.power;
         }
         public float energy() {
-            return _currentValues.energy;
+            return Values.energy;
         }
         public float frequency() {
-            return _currentValues.frequency;
+            return Values.frequency;
         }
         public float pf() {
-            return _currentValues.pf;
+            return Values.pf;
         }
         #endregion
 
@@ -137,7 +137,7 @@ namespace Pzem {
             return true;
         }
         public bool getPowerAlarm() {
-            return _currentValues.alarms != 0x0000;
+            return Values.alarms != 0x0000;
         }
         public bool resetEnergy() {
             byte[] buffer = { 0x00, CMD_REST, 0x00, 0x00 };
@@ -159,7 +159,7 @@ namespace Pzem {
         private SerialPort _serial; // Serial interface
         private byte _addr;   // Device address
 
-        private PzemValues _currentValues;
+        public PzemValues Values;
 
         private UInt64 _lastRead; // Last time values were updated
 
@@ -191,31 +191,31 @@ namespace Pzem {
             }
 
             // Update the current values
-            _currentValues.voltage = (float)(((UInt32)response[3] << 8 | // Raw voltage in 0.1V
+            Values.voltage = (float)(((UInt32)response[3] << 8 | // Raw voltage in 0.1V
                                       (UInt32)response[4]) / 10.0);
 
-            _currentValues.current = (float)(((UInt32)response[5] << 8 | // Raw current in 0.001A
+            Values.current = (float)(((UInt32)response[5] << 8 | // Raw current in 0.001A
                                       (UInt32)response[6] |
                                       (UInt32)response[7] << 24 |
                                       (UInt32)response[8] << 16) / 1000.0);
 
-            _currentValues.power = (float)(((UInt32)response[9] << 8 | // Raw power in 0.1W
+            Values.power = (float)(((UInt32)response[9] << 8 | // Raw power in 0.1W
                                       (UInt32)response[10] |
                                       (UInt32)response[11] << 24 |
                                       (UInt32)response[12] << 16) / 10.0);
 
-            _currentValues.energy = (float)(((UInt32)response[13] << 8 | // Raw Energy in 1Wh
+            Values.energy = (float)(((UInt32)response[13] << 8 | // Raw Energy in 1Wh
                                       (UInt32)response[14] |
                                       (UInt32)response[15] << 24 |
                                       (UInt32)response[16] << 16) / 1000.0);
 
-            _currentValues.frequency = (float)(((UInt32)response[17] << 8 | // Raw Frequency in 0.1Hz
+            Values.frequency = (float)(((UInt32)response[17] << 8 | // Raw Frequency in 0.1Hz
                                       (UInt32)response[18]) / 10.0);
 
-            _currentValues.pf = (float)(((UInt32)response[19] << 8 | // Raw pf in 0.01
+            Values.pf = (float)(((UInt32)response[19] << 8 | // Raw pf in 0.01
                                       (UInt32)response[20]) / 100.0);
 
-            _currentValues.alarms = (byte)(((UInt32)response[21] << 8 | // Raw alarm value
+            Values.alarms = (byte)(((UInt32)response[21] << 8 | // Raw alarm value
                                       (UInt32)response[22]));
 
             // Record current time as _lastRead
