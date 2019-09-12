@@ -8,8 +8,8 @@ using System.Windows.Forms;
 
 namespace Pzem {
     public class PzemEvent : EventArgs {
-        public PzemValues values;
-        public PzemEvent(PzemValues val) { this.values = val; }
+        public PzemValues Values;
+        public PzemEvent(PzemValues val) { this.Values = val; }
     }
     public class Pzem004t {
         public event EventHandler<PzemEvent> OnUpdate;
@@ -29,6 +29,7 @@ namespace Pzem {
         public float frequency { get; set; }
         public float pf { get; set; }
         public byte alarms { get; set; }
+        
     }
 
     public class PZEM004TV30 : Pzem004t {
