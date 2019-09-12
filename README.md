@@ -2,7 +2,7 @@
 # PZEM-004T-V3.0<br>
 PZEM-004T V3.0 C# Library<br>
 New PZEM-004T version (protocol changed)<br>
-the original library from: https://github.com/mandulaj/PZEM-004T-v30
+the original library from: https://github.com/mandulaj/PZEM-004T-v30 (library for Arduino)
 
 example:
 <pre>
