@@ -29,7 +29,7 @@ namespace Pzem004t {
         }
     }
 }</pre>
-
+-------------------------------------------------------------
 <br>
 <p align="center">
   <img src="https://github.com/cchian/PZEM-004T-V3.0-CS/blob/master/classattib.png?raw=true" width="350" title="class attributes">
