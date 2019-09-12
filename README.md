@@ -19,10 +19,11 @@ namespace Pzem004t {
             pz.OnUpdate += Pz_OnUpdate;
         }
         private void Pz_OnUpdate(object sender, PzemEvent e) {
-            Console.WriteLine("Voltage:" + e.values.voltage);
-            Console.WriteLine("Current:" + e.values.current);
-            Console.WriteLine("Energy:" + e.values.energy);
-            Console.WriteLine("Frequency:" + e.values.frequency);
+            Console.WriteLine("Voltage:" + e.values.voltage+"V");
+            Console.WriteLine("Current:" + e.values.current+"A");
+            Console.WriteLine("Active Power:" + e.values.power+"W");
+            Console.WriteLine("Active Energy:" + e.values.energy+"Wh");
+            Console.WriteLine("Frequency:" + e.values.frequency+"Hz");
             Console.WriteLine("Power Factor:" + e.values.pf);
         }
     }
