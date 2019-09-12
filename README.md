@@ -17,6 +17,8 @@ namespace Pzem004t {
             InitializeComponent();
             new PZEM004TV30(new SerialPort("COM6")).OnUpdate += Pz_OnUpdate;
         }
+        
+        //Defualt update interval is 200ms (change it by .setInterval(int ms))
         private void Pz_OnUpdate(object sender, PzemEvent e) {
             Console.WriteLine("Voltage:" + e.values.voltage+"V");
             Console.WriteLine("Current:" + e.values.current+"A");
