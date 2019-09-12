@@ -14,9 +14,7 @@ namespace Pzem004t {
     public partial class Demo : Form {
         public Demo() {
             InitializeComponent();
-            PZEM004TV30 pz = new PZEM004TV30(new System.IO.Ports.SerialPort("COM6"));
-            //pzem.setAddress(0x01);
-            pz.OnUpdate += Pz_OnUpdate;
+            new PZEM004TV30(new System.IO.Ports.SerialPort("COM6")).OnUpdate += Pz_OnUpdate;
         }
         private void Pz_OnUpdate(object sender, PzemEvent e) {
             Console.WriteLine("Voltage:" + e.values.voltage+"V");
