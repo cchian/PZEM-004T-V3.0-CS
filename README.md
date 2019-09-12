@@ -5,7 +5,7 @@ This library allow you to connect your computer to PZEM-004T V3.0 digital meter 
 New PZEM-004T version (protocol changed) The application layer use the Modbus-RTU protocol to comunicate.<br>
 the original library from: https://github.com/mandulaj/PZEM-004T-v30 ( C/C++ library for Arduino)
 
-example:
+# example:
 <pre>
 using System;
 using System.Windows.Forms;
