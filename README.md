@@ -32,7 +32,6 @@ namespace Pzem004t {
 
 <br>
 <p align="center">
-  <img src="your_relative_path_here" width="350" title="hover text">
-  <img src="your_relative_path_here_number_2_large_name" width="350" alt="accessibility text">
+  <img src="https://github.com/cchian/PZEM-004T-V3.0-CS/blob/master/classattib.png?raw=true" width="350" title="hover text">
+  <img src="https://github.com/cchian/PZEM-004T-V3.0-CS/blob/master/classattib.png?raw=true" width="350" alt="accessibility text">
 </p>
-![alt text](https://github.com/cchian/PZEM-004T-V3.0-CS/blob/master/classattib.png?raw=true)
