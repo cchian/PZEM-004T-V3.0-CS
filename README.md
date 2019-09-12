@@ -10,7 +10,7 @@ the original library from: https://github.com/mandulaj/PZEM-004T-v30 ( C/C++ lib
 using System;
 using System.Windows.Forms;
 using System.IO.Ports;
-using Pzem; +//using Pzem namespace
+using Pzem; <font color=green>using Pzem namespace</font>
 
 namespace Pzem004t {
     public partial class Demo : Form {
