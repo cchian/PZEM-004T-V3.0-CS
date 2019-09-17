@@ -21,7 +21,7 @@ namespace Pzem {
     }
 
     // Measured values
-    public class PzemValues { 
+    public class PzemValues {
         public float voltage { get; set; }
         public float current { get; set; }
         public float power { get; set; }
@@ -29,13 +29,13 @@ namespace Pzem {
         public float frequency { get; set; }
         public float pf { get; set; }
         public byte alarms { get; set; }
-        
+
     }
 
     public class PZEM004TV30 : Pzem004t {
 
         #region class atribbute
-		//measurement register result address (input register)
+        //measurement register result address (input register)
         const byte REG_VOLTAGE = 0x00;
         const byte REG_CURRENT_L = 0x01;
         const byte REG_CURRENT_H = 0X02;
@@ -47,14 +47,14 @@ namespace Pzem {
         const byte REG_PF = 0x08;
         const byte REG_ALARM = 0x09;
 
-		//command address
+        //command address
         const byte CMD_RHR = 0x03; //read holding register. address
         const byte CMD_RIR = 0X04; //read inputer register. (see above)
         const byte CMD_WSR = 0x06; //write single register.
         const byte CMD_CAL = 0x41; //calibration.
         const byte CMD_REST = 0x42;//reset energy.
 
-		//read and modify slave parameters.
+        //read and modify slave parameters.
         const byte WREG_ALARM_THR = 0x01; //power alarm threshold (1LSB corespond to 1W)
         const byte WREG_ADDR = 0x02;	  //modbus-rtu address (0x0001-0x00F7)
 
@@ -64,18 +64,18 @@ namespace Pzem {
         const byte READ_TIMEOUT = 100;	  //read timeout (exit reading loop in ms)
 
         const int PZEM_BAUD_RATE = 9600;  //default pzem baudrate (don't change it)
-		
-		//default address, can used 0x00 for broadcast address but the slave does not need to reply the master.
+
+        //default address, can used 0x00 for broadcast address but the slave does not need to reply the master.
         const int PZEM_DEFAULT_ADDR = 0xF8;//0xF8 is used as the general address (The address range of the slave is 0x01-0xF7)
-        
-		public PzemValues Values;   // measured values (V,A,W,WH,Hz,PF,Alrm)
-		
-		private SerialPort _serial; // Serial interface
+
+        public PzemValues Values;   // measured values (V,A,W,WH,Hz,PF,Alrm)
+
+        private SerialPort _serial; // Serial interface
         private byte _addr;   		// the slave address
         private UInt64 _lastRead;   // Last time values were updated
-        private Timer _timer;		// The timer for update task.
-		#endregion
-		
+        private Timer _timer;       // The timer for update task.
+        #endregion
+
         public PZEM004TV30(SerialPort port, byte addr = PZEM_DEFAULT_ADDR) {
 
             this.Values = new PzemValues();
@@ -92,13 +92,13 @@ namespace Pzem {
             init(addr);
         }
 
-		//timer task update value every time .
+        //timer task update value every time .
         private void _timer_Tick(object sender, EventArgs e) {
             updateValues();
             Update(new PzemEvent(Values));
         }
 
-		//change update timeer tick.
+        //change update timeer tick.
         public void updateInterval(int interval) {
             this._timer.Interval = interval;
         }
@@ -136,9 +136,9 @@ namespace Pzem {
 
             return true;
         }
-        public byte getAddress() { 
-			return _addr; 
-		}
+        public byte getAddress() {
+            return _addr;
+        }
         public bool setPowerAlarm(UInt16 watts) {
             if (watts > 25000) { // Sanitych check
                 watts = 25000;
