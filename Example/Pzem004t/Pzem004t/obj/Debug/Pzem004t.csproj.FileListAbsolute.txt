@@ -1,0 +1,11 @@
+C:\Users\Drchi\source\repos\Pzem004t\Pzem004t\bin\Debug\Pzem004t.exe.config
+C:\Users\Drchi\source\repos\Pzem004t\Pzem004t\bin\Debug\Pzem004t.exe
+C:\Users\Drchi\source\repos\Pzem004t\Pzem004t\bin\Debug\Pzem004t.pdb
+C:\Users\Drchi\source\repos\Pzem004t\Pzem004t\obj\Debug\Pzem004t.csprojAssemblyReference.cache
+C:\Users\Drchi\source\repos\Pzem004t\Pzem004t\obj\Debug\Pzem004t.Form1.resources
+C:\Users\Drchi\source\repos\Pzem004t\Pzem004t\obj\Debug\Pzem004t.Properties.Resources.resources
+C:\Users\Drchi\source\repos\Pzem004t\Pzem004t\obj\Debug\Pzem004t.csproj.GenerateResource.cache
+C:\Users\Drchi\source\repos\Pzem004t\Pzem004t\obj\Debug\Pzem004t.csproj.CoreCompileInputs.cache
+C:\Users\Drchi\source\repos\Pzem004t\Pzem004t\obj\Debug\Pzem004t.exe
+C:\Users\Drchi\source\repos\Pzem004t\Pzem004t\obj\Debug\Pzem004t.pdb
+C:\Users\Drchi\source\repos\Pzem004t\Pzem004t\obj\Debug\Pzem004t.Demo.resources
