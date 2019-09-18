@@ -13,7 +13,7 @@ namespace Pzem {
         //
         // Returns:
         //     Returns a float that represents the current measured voltage.
-        //     the value still be '-1' if the master cannot reading data from the slave device
+        //     the value still be '-1' if the master cannot read data from the slave device
         public float voltage { get; set; }
 
         //
@@ -25,7 +25,7 @@ namespace Pzem {
         //
         // Returns:
         //     Returns a float that represents the current measured current.
-        //     the value still be '-1' if the master cannot reading data from the slave device
+        //     the value still be '-1' if the master cannot read data from the slave device
         public float current { get; set; }
 
         //
@@ -38,7 +38,7 @@ namespace Pzem {
         //
         // Returns:
         //     Returns a float that represents the current measured active power.
-        //     the value still be '-1' if the master cannot reading data from the slave device
+        //     the value still be '-1' if the master cannot read data from the slave device
         public float power { get; set; }
 
         //
@@ -50,7 +50,7 @@ namespace Pzem {
         //
         // Returns:
         //     Returns a float that represents the current measured active energy.
-        //     the value still be '-1' if the master cannot reading data from the slave device
+        //     the value still be '-1' if the master cannot read data from the slave device
         public float energy { get; set; }
 
         //
@@ -61,7 +61,7 @@ namespace Pzem {
         //
         // Returns:
         //     Returns a float that represents the current measured frequency.
-        //     the value still be '-1' if the master cannot reading data from the slave device
+        //     the value still be '-1' if the master cannot read data from the slave device
         public float frequency { get; set; }
 
         //
@@ -72,7 +72,7 @@ namespace Pzem {
         //
         // Returns:
         //     Returns a float that represents the current measured power factor.
-        //     the value still be '-1' if the master cannot reading data from the slave device
+        //     the value still be '-1' if the master cannot read data from the slave device
         public float pf { get; set; }
 
         //
@@ -81,7 +81,7 @@ namespace Pzem {
         //
         // Returns:
         //     Returns a float that represents the current measured power alarm status the value 0 mean not set.
-        //     the value still be '-1' if the master cannot reading data from the slave device
+        //     the value still be '-1' if the master cannot read data from the slave device
         public byte alarms { get; set; }
     }
 
