@@ -14,7 +14,7 @@ namespace Pzem {
         // Returns:
         //     Returns a float that represents the current measured voltage.
         //     the value still be '-1' if the master cannot read data from the slave device
-        public float voltage { get; set; }
+        public float Voltage { get; set; }
 
         //
         // Summary:
@@ -26,7 +26,7 @@ namespace Pzem {
         // Returns:
         //     Returns a float that represents the current measured current.
         //     the value still be '-1' if the master cannot read data from the slave device
-        public float current { get; set; }
+        public float Current { get; set; }
 
         //
         // Summary:
@@ -39,7 +39,7 @@ namespace Pzem {
         // Returns:
         //     Returns a float that represents the current measured active power.
         //     the value still be '-1' if the master cannot read data from the slave device
-        public float power { get; set; }
+        public float Power { get; set; }
 
         //
         // Summary:
@@ -51,7 +51,7 @@ namespace Pzem {
         // Returns:
         //     Returns a float that represents the current measured active energy.
         //     the value still be '-1' if the master cannot read data from the slave device
-        public float energy { get; set; }
+        public float Energy { get; set; }
 
         //
         // Summary:
@@ -62,7 +62,7 @@ namespace Pzem {
         // Returns:
         //     Returns a float that represents the current measured frequency.
         //     the value still be '-1' if the master cannot read data from the slave device
-        public float frequency { get; set; }
+        public float Frequency { get; set; }
 
         //
         // Summary:
@@ -73,7 +73,7 @@ namespace Pzem {
         // Returns:
         //     Returns a float that represents the current measured power factor.
         //     the value still be '-1' if the master cannot read data from the slave device
-        public float pf { get; set; }
+        public float PF { get; set; }
 
         //
         // Summary:
@@ -82,7 +82,7 @@ namespace Pzem {
         // Returns:
         //     Returns a float that represents the current measured power alarm status the value 0 mean not set.
         //     the value still be '-1' if the master cannot read data from the slave device
-        public byte alarms { get; set; }
+        public byte Alarms { get; set; }
     }
 
     //
@@ -142,7 +142,7 @@ namespace Pzem {
         // Returns:
         //     A float that represents the current measured voltage.
         public float voltage() {
-            return Values.voltage;
+            return Values.Voltage;
         }
 
         //
@@ -152,7 +152,7 @@ namespace Pzem {
         // Returns:
         //     A float that represents the current measured current.
         public float current() {
-            return Values.current;
+            return Values.Current;
         }
 
         //
@@ -162,7 +162,7 @@ namespace Pzem {
         // Returns:
         //     A float that represents the current measured power.
         public float power() {
-            return Values.power;
+            return Values.Power;
         }
 
         //
@@ -172,7 +172,7 @@ namespace Pzem {
         // Returns:
         //     A float that represents the current measured energy.
         public float energy() {
-            return Values.energy;
+            return Values.Energy;
         }
 
         //
@@ -182,7 +182,7 @@ namespace Pzem {
         // Returns:
         //     A float that represents the current measured frequency.
         public float frequency() {
-            return Values.frequency;
+            return Values.Frequency;
         }
 
         //
@@ -192,7 +192,7 @@ namespace Pzem {
         // Returns:
         //     A float that represents the current measured power factor.
         public float pf() {
-            return Values.pf;
+            return Values.PF;
         }
         #endregion
 
@@ -254,7 +254,7 @@ namespace Pzem {
         // Returns:
         //     A bool that represents the Alarm status.
         public bool getPowerAlarm() {
-            return Values.alarms != 0x0000;
+            return Values.Alarms != 0x0000;
         }
 
         //
@@ -308,31 +308,31 @@ namespace Pzem {
             }
 
             // Update the current values
-            Values.voltage = (float)(((UInt32)response[3] << 8 | // Raw voltage in 0.1V
+            Values.Voltage = (float)(((UInt32)response[3] << 8 | // Raw voltage in 0.1V
                                       (UInt32)response[4]) / 10.0);
 
-            Values.current = (float)(((UInt32)response[5] << 8 | // Raw current in 0.001A
+            Values.Current = (float)(((UInt32)response[5] << 8 | // Raw current in 0.001A
                                       (UInt32)response[6] |
                                       (UInt32)response[7] << 24 |
                                       (UInt32)response[8] << 16) / 1000.0);
 
-            Values.power = (float)(((UInt32)response[9] << 8 | // Raw power in 0.1W
+            Values.Power = (float)(((UInt32)response[9] << 8 | // Raw power in 0.1W
                                       (UInt32)response[10] |
                                       (UInt32)response[11] << 24 |
                                       (UInt32)response[12] << 16) / 10.0);
 
-            Values.energy = (float)(((UInt32)response[13] << 8 | // Raw Energy in 1Wh
+            Values.Energy = (float)(((UInt32)response[13] << 8 | // Raw Energy in 1Wh
                                       (UInt32)response[14] |
                                       (UInt32)response[15] << 24 |
                                       (UInt32)response[16] << 16) / 1000.0);
 
-            Values.frequency = (float)(((UInt32)response[17] << 8 | // Raw Frequency in 0.1Hz
+            Values.Frequency = (float)(((UInt32)response[17] << 8 | // Raw Frequency in 0.1Hz
                                       (UInt32)response[18]) / 10.0);
 
-            Values.pf = (float)(((UInt32)response[19] << 8 | // Raw pf in 0.01
+            Values.PF = (float)(((UInt32)response[19] << 8 | // Raw pf in 0.01
                                       (UInt32)response[20]) / 100.0);
 
-            Values.alarms = (byte)(((UInt32)response[21] << 8 | // Raw alarm value
+            Values.Alarms = (byte)(((UInt32)response[21] << 8 | // Raw alarm value
                                       (UInt32)response[22]));
 
             // Record current time as _lastRead
