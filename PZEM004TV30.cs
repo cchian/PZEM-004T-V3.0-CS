@@ -1,81 +1,104 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Pzem {
-    public class PzemEvent : EventArgs {
-        public PzemValues Values;
-        public PzemEvent(PzemValues val) { this.Values = val; }
-    }
-    public class Pzem004t {
-        public event EventHandler<PzemEvent> OnUpdate;
-        protected virtual void Update(PzemEvent e) {
-            EventHandler<PzemEvent> handler = OnUpdate;
-            if (handler != null)
-                handler(this, e);
-        }
-    }
-
     // Measured values
     public class PzemValues {
+        //
+        // Summary:
+        //     Gets or Sets the voltage, measuring range:80-260V
+        //     Resolution:0.1V
+        //     Measurement accuracy:0.5%
+        //
+        // Returns:
+        //     Returns a float that represents the current measured voltage.
+        //     the value still -1 if the master cannot reading data from the slave device
         public float voltage { get; set; }
-        public float current { get; set; }
-        public float power { get; set; }
-        public float energy { get; set; }
-        public float frequency { get; set; }
-        public float pf { get; set; }
-        public byte alarms { get; set; }
 
+        //
+        // Summary:
+        //     Gets or Sets the current, measuring range:0-10A(PZEM-004T-10A): 0-100A(PZEM-004T-100A)
+        //     Starting measure current:0.01A(PZEM-004T-10A): 0.02A(PZEM-004T-100A):
+        //     Resolution:0.001A
+        //     Measurement accuracy:0.5%
+        //
+        // Returns:
+        //     Returns a float that represents the current measured current.
+        //     the value still -1 if the master cannot reading data from the slave device
+        public float current { get; set; }
+
+        //
+        // Summary:
+        //     Gets or Sets the Active power, measuring range:0-2.3kW(PZEM-004T-10A): 0-23kW(PZEM-004T-100A)
+        //     Starting measure power:0.4W
+        //     Resolution:0.1W
+        //     display format:<1000W,it display one decimal, such as:999.9W: >=1000W,it display only integer, such as:1000W
+        //     Measurement accuracy:0.5%
+        //
+        // Returns:
+        //     Returns a float that represents the current measured active power.
+        //     the value still -1 if the master cannot reading data from the slave device
+        public float power { get; set; }
+
+        //
+        // Summary:
+        //     Gets or Sets the Active energy, measuring range:0-9999.99kWh
+        //     Resolution:1Wh
+        //     display format:<10kWh, the display unit is Wh(1kWh=1000Wh), such as:9999Wh: >=10kWh, the display unit is kwH, such as:9999.99kWh
+        //     Measurement accuracy:0.5%
+        //
+        // Returns:
+        //     Returns a float that represents the current measured active energy.
+        //     the value still -1 if the master cannot reading data from the slave device
+        public float energy { get; set; }
+
+        //
+        // Summary:
+        //     Gets or Sets the frequency, measuring range:45Hz-65Hz
+        //     Resolution:0.1Hz
+        //     Measurement accuracy:0.5%
+        //
+        // Returns:
+        //     Returns a float that represents the current measured frequency.
+        //     the value still -1 if the master cannot reading data from the slave device
+        public float frequency { get; set; }
+
+        //
+        // Summary:
+        //     Gets or Sets the power factor, measuring range:0.00-1.00
+        //     Resolution:0.01
+        //     Measurement accuracy:0.5%
+        //
+        // Returns:
+        //     Returns a float that represents the current measured power factor.
+        //     the value still -1 if the master cannot reading data from the slave device
+        public float pf { get; set; }
+
+        //
+        // Summary:
+        //     Gets or Sets the alarm status
+        //
+        // Returns:
+        //     Returns a float that represents the current measured power alarm status the value 0 mean not set.
+        //     the value still -1 if the master cannot reading data from the slave device
+        public byte alarms { get; set; }
     }
 
+    //
+    // Summary:
+    //     Pzem-004t v3.0 class
     public class PZEM004TV30 : Pzem004t {
 
-        #region class atribbute
-        //measurement register result address (input register)
-        const byte REG_VOLTAGE = 0x00;
-        const byte REG_CURRENT_L = 0x01;
-        const byte REG_CURRENT_H = 0X02;
-        const byte REG_POWER_L = 0x03;
-        const byte REG_POWER_H = 0x04;
-        const byte REG_ENERGY_L = 0x05;
-        const byte REG_ENERGY_H = 0x06;
-        const byte REG_FREQUENCY = 0x07;
-        const byte REG_PF = 0x08;
-        const byte REG_ALARM = 0x09;
-
-        //command address
-        const byte CMD_RHR = 0x03; //read holding register. address
-        const byte CMD_RIR = 0X04; //read inputer register. (see above)
-        const byte CMD_WSR = 0x06; //write single register.
-        const byte CMD_CAL = 0x41; //calibration.
-        const byte CMD_REST = 0x42;//reset energy.
-
-        //read and modify slave parameters.
-        const byte WREG_ALARM_THR = 0x01; //power alarm threshold (1LSB corespond to 1W)
-        const byte WREG_ADDR = 0x02;	  //modbus-rtu address (0x0001-0x00F7)
-
-        const byte UPDATE_TIME = 200; 	  //timer tick interval for read data from pzem (ms)
-
-        //const byte RESPONSE_SIZE = 32;  //read buffered size
-        const byte READ_TIMEOUT = 100;	  //read timeout (exit reading loop in ms)
-
-        const int PZEM_BAUD_RATE = 9600;  //default pzem baudrate (don't change it)
-
-        //default address, can used 0x00 for broadcast address but the slave does not need to reply the master.
-        const int PZEM_DEFAULT_ADDR = 0xF8;//0xF8 is used as the general address (The address range of the slave is 0x01-0xF7)
-
-        public PzemValues Values;   // measured values (V,A,W,WH,Hz,PF,Alrm)
-
-        private SerialPort _serial; // Serial interface
-        private byte _addr;   		// the slave address
-        private UInt64 _lastRead;   // Last time values were updated
-        private Timer _timer;       // The timer for update task.
-        #endregion
-
+        //
+        // Summary:
+        //     Returns a string that represents the current object.
+        //
+        // parameters:
+        //     port: System.io.ports.Serialport object
+        //     addr: slave address (0x01-0xF7),  the general defualt address is 0xF8 for unknow slave adress
+        // Returns:
+        //     no return
         public PZEM004TV30(SerialPort port, byte addr = PZEM_DEFAULT_ADDR) {
 
             this.Values = new PzemValues();
@@ -98,32 +121,91 @@ namespace Pzem {
             Update(new PzemEvent(Values));
         }
 
-        //change update timeer tick.
-        public void updateInterval(int interval) {
-            this._timer.Interval = interval;
+        //
+        // Summary:
+        //     Returns a string that represents the current object.
+        //
+        // Returns:
+        //     A string that represents the current object.
+        public int UpdateInterval {
+            get { return this._timer.Interval; }
+            set {
+                this._timer.Interval = value;
+            }
         }
 
         #region getValues
+        //
+        // Summary:
+        //     Returns a float that represents the current measured voltage.
+        //
+        // Returns:
+        //     A float that represents the current measured voltage.
         public float voltage() {
             return Values.voltage;
         }
+
+        //
+        // Summary:
+        //     Returns a float that represents the current measured current.
+        //
+        // Returns:
+        //     A float that represents the current measured current.
         public float current() {
             return Values.current;
         }
+
+        //
+        // Summary:
+        //     Returns a float that represents the current measured power.
+        //
+        // Returns:
+        //     A float that represents the current measured power.
         public float power() {
             return Values.power;
         }
+
+        //
+        // Summary:
+        //     Returns a float that represents the current measured energy.
+        //
+        // Returns:
+        //     A float that represents the current measured energy.
         public float energy() {
             return Values.energy;
         }
+
+        //
+        // Summary:
+        //     Returns a float that represents the current measured frequency.
+        //
+        // Returns:
+        //     A float that represents the current measured frequency.
         public float frequency() {
             return Values.frequency;
         }
+
+        //
+        // Summary:
+        //     Returns a float that represents the current measured power factor.
+        //
+        // Returns:
+        //     A float that represents the current measured power factor.
         public float pf() {
             return Values.pf;
         }
         #endregion
 
+        //
+        // Summary:
+        //     Returns a string that represents the current object.
+        //
+        // Parameters:
+        //   addr:
+        //     The value of byte address in range 0x01-0xF7.
+        //
+        // Returns:
+        //     A bool that represents the operation is complease is 'true'.
         public bool setAddress(byte addr) {
             if (addr < 0x01 || addr > 0xF7) // sanity check
                 return false;
@@ -136,9 +218,23 @@ namespace Pzem {
 
             return true;
         }
+
+        //
+        // Summary:
+        //     Returns a byte that represents the slave address.
+        //
+        // Returns:
+        //     A byte that represents the slave address.
         public byte getAddress() {
             return _addr;
         }
+
+        //
+        // Summary:
+        //     Returns a string that represents the current object.
+        //
+        // Returns:
+        //     A string that represents the current object.
         public bool setPowerAlarm(UInt16 watts) {
             if (watts > 25000) { // Sanitych check
                 watts = 25000;
@@ -150,9 +246,24 @@ namespace Pzem {
 
             return true;
         }
+
+        //
+        // Summary:
+        //     Returns a bool that represents the Alarm status.
+        //
+        // Returns:
+        //     A bool that represents the Alarm status.
         public bool getPowerAlarm() {
             return Values.alarms != 0x0000;
         }
+
+        //
+        // Summary:
+        //     Reset active energy to factory reset
+        //     Returns a bool that represents the energy measured is 0Wh.
+        //
+        // Returns:
+        //     A bool that represents the energy measured is 0Wh
         public bool resetEnergy() {
             byte[] buffer = { 0x00, CMD_REST, 0x00, 0x00 };
             byte[] reply = new byte[5];
@@ -170,7 +281,7 @@ namespace Pzem {
         }
 
         // Init common to all constructors
-        void init(byte addr) {
+        private void init(byte addr) {
             if (addr < 0x01 || addr > 0xF8) // Sanity check of address
                 addr = PZEM_DEFAULT_ADDR;
             _addr = addr;
@@ -346,7 +457,61 @@ namespace Pzem {
                 wCRCWord ^= wCRCTable[nTemp];
             }
             return wCRCWord;
+        }
 
+        #region class atribbute
+        //measurement register result address (input register)
+        const byte REG_VOLTAGE = 0x00;
+        const byte REG_CURRENT_L = 0x01;
+        const byte REG_CURRENT_H = 0X02;
+        const byte REG_POWER_L = 0x03;
+        const byte REG_POWER_H = 0x04;
+        const byte REG_ENERGY_L = 0x05;
+        const byte REG_ENERGY_H = 0x06;
+        const byte REG_FREQUENCY = 0x07;
+        const byte REG_PF = 0x08;
+        const byte REG_ALARM = 0x09;
+
+        //command address
+        const byte CMD_RHR = 0x03; //read holding register. address
+        const byte CMD_RIR = 0X04; //read inputer register. (see above)
+        const byte CMD_WSR = 0x06; //write single register.
+        const byte CMD_CAL = 0x41; //calibration.
+        const byte CMD_REST = 0x42;//reset energy.
+
+        //read and modify slave parameters.
+        const byte WREG_ALARM_THR = 0x01; //power alarm threshold (1LSB corespond to 1W)
+        const byte WREG_ADDR = 0x02;	  //modbus-rtu address (0x0001-0x00F7)
+
+        const byte UPDATE_TIME = 200; 	  //timer tick interval for read data from pzem (ms)
+
+        //const byte RESPONSE_SIZE = 32;  //read buffered size
+        const byte READ_TIMEOUT = 100;	  //read timeout (exit reading loop in ms)
+
+        const int PZEM_BAUD_RATE = 9600;  //default pzem baudrate (don't change it)
+
+        //default address, can used 0x00 for broadcast address but the slave does not need to reply the master.
+        const int PZEM_DEFAULT_ADDR = 0xF8;//0xF8 is used as the general address (The address range of the slave is 0x01-0xF7)
+
+        public PzemValues Values;   // measured values (V,A,W,WH,Hz,PF,Alrm)
+
+        private SerialPort _serial; // Serial interface
+        private byte _addr;   		// the slave address
+        private UInt64 _lastRead;   // Last time values were updated
+        private Timer _timer;       // The timer for update task.
+        #endregion
+    }
+
+    public class PzemEvent : EventArgs {
+        public PzemValues Values;
+        public PzemEvent(PzemValues val) { this.Values = val; }
+    }
+    public class Pzem004t {
+        public event EventHandler<PzemEvent> OnUpdate;
+        protected virtual void Update(PzemEvent e) {
+            EventHandler<PzemEvent> handler = OnUpdate;
+            if (handler != null)
+                handler(this, e);
         }
     }
 }
