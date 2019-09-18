@@ -20,12 +20,12 @@ namespace Pzem004t {
         
         //Defualt update interval is 200ms (change it by .setInterval(int ms))
         private void Pz_OnUpdate(object sender, PzemEvent e) {
-            Console.WriteLine("Voltage:" + e.values.voltage+"V");
-            Console.WriteLine("Current:" + e.values.current+"A");
-            Console.WriteLine("Active Power:" + e.values.power+"W");
-            Console.WriteLine("Active Energy:" + e.values.energy+"Wh");
-            Console.WriteLine("Frequency:" + e.values.frequency+"Hz");
-            Console.WriteLine("Power Factor:" + e.values.pf);
+            Console.WriteLine("Voltage:" + e.Values.Voltage+"V");
+            Console.WriteLine("Current:" + e.Values.Current+"A");
+            Console.WriteLine("Active Power:" + e.Values.Power+"W");
+            Console.WriteLine("Active Energy:" + e.Values.Energy+"Wh");
+            Console.WriteLine("Frequency:" + e.Values.Frequency+"Hz");
+            Console.WriteLine("Power Factor:" + e.Values.PF);
         }
     }
 }</pre>
