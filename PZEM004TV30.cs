@@ -92,7 +92,7 @@ namespace Pzem {
 
         //
         // Summary:
-        //     Returns a string that represents the current object.
+        //     PZEM004TV30 Constructor.
         //
         // parameters:
         //     port: System.io.ports.Serialport object
