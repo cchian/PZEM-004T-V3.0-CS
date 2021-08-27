@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO.Ports;
 using System.Windows.Forms;
 
@@ -92,7 +92,7 @@ namespace Pzem {
 
         //
         // Summary:
-        //     PZEM004TV30 Constructor.
+        //     Returns a string that represents the current object.
         //
         // parameters:
         //     port: System.io.ports.Serialport object
@@ -303,8 +303,14 @@ namespace Pzem {
             sendCmd8(CMD_RIR, 0x00, 0x0A, false);
 
             if (recieve(response, 25) != 25) { // Something went wrong
+                Values.Voltage = 0;
+                Values.Current = 0;
+                Values.Power = 0;
+                Values.Energy = 0;
+                Values.Frequency = 0;
+                Values.PF = 0;
+                Values.Alarms = 0;
                 return false;
-
             }
 
             // Update the current values
@@ -335,6 +341,17 @@ namespace Pzem {
             Values.Alarms = (byte)(((UInt32)response[21] << 8 | // Raw alarm value
                                       (UInt32)response[22]));
 
+
+            if (Values.Voltage>260) { // Something went wrong
+                Values.Voltage = 0;
+                Values.Current = 0;
+                Values.Power = 0;
+                Values.Energy = 0;
+                Values.Frequency = 0;
+                Values.PF = 0;
+                Values.Alarms = 0;
+                return false;
+            }
             // Record current time as _lastRead
             _lastRead = (ulong)DateTime.Now.Millisecond;
 
