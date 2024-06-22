@@ -1,9 +1,9 @@
 
 # PZEM-004T-V3.0 C# Library<br> 
-// This library allows you to connect your computer to the PZEM-004T V3.0 digital meter module directly via a UART-to-USB converter (without a microcontroller).
-// The baud rate is 9600, with 8 data bits, 1 stop bit, and no parity.
-// The new PZEM-004T version (protocol changed) uses the Modbus-RTU protocol to communicate at the application layer.
-// The original library is from: https://github.com/mandulaj/PZEM-004T-v30 (C/C++ library for Arduino).
+// This library allows you to connect your computer to the PZEM-004T V3.0 digital meter module directly via a UART-to-USB converter (without a microcontroller).<br/>
+// The baud rate is 9600, with 8 data bits, 1 stop bit, and no parity.<br/>
+// The new PZEM-004T version (protocol changed) uses the Modbus-RTU protocol to communicate at the application layer.<br/>
+// The original library is from: https://github.com/mandulaj/PZEM-004T-v30 (C/C++ library for Arduino).<br/>
 
 
 # example:
